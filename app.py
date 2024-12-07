@@ -8,7 +8,7 @@ from scipy.optimize import minimize
 
 # Configuración de la página
 st.set_page_config(page_title="Analizador de Portafolio", layout="wide", page_icon="📊")
-st.sidebar.title("📈 Analizador Cool de Portafolio de Inversión")
+st.sidebar.title("📈 Analizador de Portafolio de Inversión")
 
 # Funciones auxiliares
 
