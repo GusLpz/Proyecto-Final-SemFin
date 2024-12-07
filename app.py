@@ -775,6 +775,53 @@ with tab6:
     fig.add_trace(go.Scatter(x=benchmark_cumulative.index, y=benchmark_cumulative, name="Benchmark"))
     fig.update_layout(title="Rendimientos Acumulados", xaxis_title="Fecha", yaxis_title="Rendimiento Acumulado")
     st.plotly_chart(fig)
+    
+    
+
+    # Estilos CSS para personalizar la apariencia
+    st.markdown("""
+        <style>
+            .title {
+                font-size: 24px;
+                font-weight: bold;
+                color: #4CAF50;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .subtitle {
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                margin-top: 15px;
+            }
+            .paragraph {
+                font-size: 16px;
+                color: #555;
+                text-align: justify;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    # Título principal
+    st.markdown("<div class='title'>Comparación entre el Benchmark (S&P 500) y un Portafolio Equitativo: Un Análisis de Desempeño (2021-2023)</div>", unsafe_allow_html=True)
+    
+    # Secciones del texto
+    st.markdown("<div class='paragraph'>La evaluación de estrategias de inversión es fundamental para los inversionistas que buscan maximizar el rendimiento ajustado al riesgo de su portafolio. En este análisis, se comparan dos opciones: el benchmark, representado por el S&P 500 (SPY), y un portafolio equitativo que asigna los recursos de manera uniforme entre un grupo de ETFs. Utilizando métricas clave como rendimiento anualizado, volatilidad, ratios de desempeño, y métricas de riesgo extremo, se analizarán las diferencias entre ambas opciones para determinar cuál habría sido la mejor alternativa en el periodo 2021-2023.</div>", unsafe_allow_html=True)
+    
+    st.markdown("<div class='subtitle'>Rendimiento Anualizado y Acumulado</div>", unsafe_allow_html=True)
+    st.markdown("<div class='paragraph'>El rendimiento anualizado del benchmark fue de un 10.05%, significativamente superior al 1.10% obtenido por el portafolio equitativo. Este diferencial es aún más evidente al observar el rendimiento acumulado, donde el S&P 500 generó un crecimiento del 28.89% frente al 1.83% del portafolio equitativo...</div>", unsafe_allow_html=True)
+    
+    st.markdown("<div class='subtitle'>Análisis de Riesgo y Volatilidad</div>", unsafe_allow_html=True)
+    st.markdown("<div class='paragraph'>El portafolio equitativo presentó una volatilidad anualizada de 9.89%, considerablemente menor que el 17.59% del benchmark...</div>", unsafe_allow_html=True)
+    
+    st.markdown("<div class='subtitle'>Desempeño Ajustado al Riesgo</div>", unsafe_allow_html=True)
+    st.markdown("<div class='paragraph'>El Sharpe Ratio, que mide el rendimiento por unidad de riesgo total asumido, fue de 0.46 para el benchmark y de -0.09 para el portafolio equitativo...</div>", unsafe_allow_html=True)
+    
+    st.markdown("<div class='subtitle'>Conclusión</div>", unsafe_allow_html=True)
+    st.markdown("<div class='paragraph'>En términos generales, invertir en el S&P 500 habría sido la mejor decisión durante el periodo 2021-2023...</div>", unsafe_allow_html=True)
+    
 
 with tab7:
     st.title('Cálculo de Riesgo con el Modelo de Black-Litterman')
