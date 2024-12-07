@@ -240,6 +240,9 @@ benchmark_options = {
 selected_benchmark = st.sidebar.selectbox("Seleccione el benchmark:", list(benchmark_options.keys()))
 benchmark = benchmark_options[selected_benchmark]
 
+st.markdown("<div style='font-size:14px; color:#888; text-align:center; margin-top:20px;'>Autores: <b>Gustavo López López</b> y <b>Ismael Omar Jiménez González</b></div>", unsafe_allow_html=True)
+
+
 if len(simbolos) != len(pesos) or abs(sum(pesos) - 1) > 1e-6:
     st.sidebar.error("El número de símbolos debe coincidir con el número de pesos, y los pesos deben sumar 1.")
 else:
