@@ -834,34 +834,34 @@ with tab6:
 
 with tab7:
     st.markdown("""
-    <style>
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .subtitle {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin-top: 15px;
-        }
-        .paragraph {
-            font-size: 16px;
-            color: #555;
-            text-align: justify;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        .highlight {
-            font-size: 16px;
-            color: #FF5722;
-            font-weight: bold;
-        }
-        </style>
-            """, unsafe_allow_html=True)
+        <style>
+            .title {
+                font-size: 24px;
+                font-weight: bold;
+                color: #4CAF50;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .subtitle {
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                margin-top: 15px;
+            }
+            .paragraph {
+                font-size: 16px;
+                color: #555;
+                text-align: justify;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+            .highlight {
+                font-size: 16px;
+                color: #FF5722;
+                font-weight: bold;
+            }
+            </style>
+                """, unsafe_allow_html=True)
 
         # Título principal
         st.markdown("<div class='title'>Análisis del Portafolio Seleccionado</div>", unsafe_allow_html=True)
