@@ -213,12 +213,11 @@ def calcular_maximo_sharpe(returns, risk_free_rate=0.02):
 
 
 # ETFs permitidos y datos
-etfs_permitidos = ["IEI", "EMB", "SPY", "IEMG", "GLD"]
-start_date = "2010-01-01"
-end_date = "2023-12-31"
-
+etfs_permitidos = []
+start_date = datetime.today().date()
+end_date = start_date - timedelta(days=365)
 simbolos_input = st.sidebar.text_input(
-    "🧩 Ingrese los símbolos de los ETFs (IEI, EMB, SPY, IEMG, GLD):", 
+    "🧩 Ingrese el Ticker del activo(TSLA, SPY, GOOG, ACWI, ETC):", 
     ",".join(etfs_permitidos)
 )
 pesos_input = st.sidebar.text_input(
