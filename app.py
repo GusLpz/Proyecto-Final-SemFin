@@ -3,12 +3,12 @@ import yfinance as yf
 import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 from scipy.optimize import minimize
 
 # Configuración de la página
 st.set_page_config(page_title="Analizador de Portafolio", layout="wide", page_icon="📊")
-st.sidebar.title("📈 Analizador de Portafolio de Inversión")
+st.sidebar.title("📈 Analizador Cool de Portafolio de Inversión")
 
 # Funciones auxiliares
 
@@ -213,11 +213,12 @@ def calcular_maximo_sharpe(returns, risk_free_rate=0.02):
 
 
 # ETFs permitidos y datos
-etfs_permitidos = []
+etfs_permitidos = ["IEI", "EMB", "SPY", "IEMG", "GLD"]
 start_date = "2010-01-01"
 end_date = "2023-12-31"
+
 simbolos_input = st.sidebar.text_input(
-    "🧩 Ingrese el Ticker del activo(TSLA, SPY, GOOG, ACWI, ETC):", 
+    "🧩 Ingrese los símbolos de los ETFs (IEI, EMB, SPY, IEMG, GLD):", 
     ",".join(etfs_permitidos)
 )
 pesos_input = st.sidebar.text_input(
@@ -239,9 +240,6 @@ benchmark_options = {
 selected_benchmark = st.sidebar.selectbox("Seleccione el benchmark:", list(benchmark_options.keys()))
 benchmark = benchmark_options[selected_benchmark]
 
-st.markdown("<div style='font-size:14px; color:#888; text-align:center; margin-top:20px;'>Autor: <b>Gustavo López López</b></div>", unsafe_allow_html=True)
-
-
 if len(simbolos) != len(pesos) or abs(sum(pesos) - 1) > 1e-6:
     st.sidebar.error("El número de símbolos debe coincidir con el número de pesos, y los pesos deben sumar 1.")
 else:
@@ -255,7 +253,7 @@ else:
     portfolio_cumulative_returns = (1 + portfolio_returns).cumprod() - 1
 
     # Crear pestañas
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Análisis de Activos Individuales", "Análisis del Portafolio", "Portafolio Mínima Varianza", "Portafolio Max Sharpe Ratio","Portafolio Mínima Vol 10% obj", "BackTesting", "Portafolio Black Litterman"])
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Análisis de Activos Individuales", "Análisis del Portafolio", "Portafolio Mínima Varianza", "Portafolio Max Sharpe Ratio","Portafolio Mínima Vol 10% obj", "Portafolio Black Litterman","BackTesting"])
 
     etf_summaries = {
         "IEI": {
@@ -777,165 +775,19 @@ with tab6:
     fig.add_trace(go.Scatter(x=benchmark_cumulative.index, y=benchmark_cumulative, name="Benchmark"))
     fig.update_layout(title="Rendimientos Acumulados", xaxis_title="Fecha", yaxis_title="Rendimiento Acumulado")
     st.plotly_chart(fig)
-    
-    st.markdown("""
-    <style>
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .subtitle {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin-top: 15px;
-        }
-        .paragraph {
-            font-size: 16px;
-            color: #555;
-            text-align: justify;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        .highlight {
-            font-size: 16px;
-            color: #FF5722;
-            font-weight: bold;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-    # Título principal
-    st.markdown("<div class='title'>Comparación entre el Benchmark (S&P 500) y un Portafolio Equitativo: Un Análisis de Desempeño (2021-2023)</div>", unsafe_allow_html=True)
-    
-    # Texto del análisis
-    st.markdown("<div class='paragraph'>La evaluación de estrategias de inversión es fundamental para los inversionistas que buscan maximizar el rendimiento ajustado al riesgo de su portafolio. En este análisis, se comparan dos opciones: el benchmark, representado por el S&P 500 (SPY), y un portafolio equitativo que asigna los recursos de manera uniforme entre un grupo de ETFs. Utilizando métricas clave como rendimiento anualizado, volatilidad, ratios de desempeño, y métricas de riesgo extremo, se analizarán las diferencias entre ambas opciones para determinar cuál habría sido la mejor alternativa en el periodo 2021-2023.</div>", unsafe_allow_html=True)
-    
-    st.markdown("<div class='subtitle'>1. Rendimiento Anualizado y Acumulado</div>", unsafe_allow_html=True)
-    st.markdown("<div class='paragraph'>El rendimiento anualizado del benchmark fue de <span class='highlight'>10.05%</span>, significativamente superior al <span class='highlight'>1.10%</span> obtenido por el portafolio equitativo. Este diferencial es aún más evidente al observar el rendimiento acumulado, donde el S&P 500 generó un crecimiento del <span class='highlight'>28.89%</span> frente al <span class='highlight'>1.83%</span> del portafolio equitativo.</div>", unsafe_allow_html=True)
-    
-    st.markdown("<div class='subtitle'>2. Análisis de Riesgo y Volatilidad</div>", unsafe_allow_html=True)
-    st.markdown("<div class='paragraph'>El portafolio equitativo presentó una volatilidad anualizada de <span class='highlight'>9.89%</span>, considerablemente menor que el <span class='highlight'>17.59%</span> del benchmark. Esta menor volatilidad sugiere fluctuaciones más controladas, pero no suficientes para compensar el bajo rendimiento.</div>", unsafe_allow_html=True)
-    
-    st.markdown("<div class='subtitle'>3. Desempeño Ajustado al Riesgo</div>", unsafe_allow_html=True)
-    st.markdown("<div class='paragraph'>El Sharpe Ratio del benchmark fue de <span class='highlight'>0.46</span>, mientras que el del portafolio equitativo fue <span class='highlight'>-0.09</span>. El Sortino Ratio muestra un patrón similar: <span class='highlight'>0.57</span> para el benchmark frente a <span class='highlight'>0.11</span> del portafolio equitativo.</div>", unsafe_allow_html=True)
-    
-    st.markdown("<div class='subtitle'>4. Riesgo Extremo: VaR y CVaR</div>", unsafe_allow_html=True)
-    st.markdown("<div class='paragraph'>En términos de riesgos extremos, el Value at Risk (VaR) al 95% fue de <span class='highlight'>-2%</span> para el benchmark y de <span class='highlight'>-1%</span> para el portafolio equitativo. Similarmente, el CVaR al 95% fue de <span class='highlight'>-3%</span> y <span class='highlight'>-1%</span>, respectivamente.</div>", unsafe_allow_html=True)
-    
-    st.markdown("<div class='subtitle'>5. Otras Métricas</div>", unsafe_allow_html=True)
-    st.markdown("<div class='paragraph'>El sesgo del portafolio equitativo fue positivo (<span class='highlight'>0.21</span>), mientras que el del benchmark fue negativo (<span class='highlight'>-0.15</span>). El exceso de curtosis fue mayor en el portafolio equitativo (<span class='highlight'>2.45</span>), indicando mayor frecuencia de eventos extremos. Finalmente, el drawdown máximo fue menor para el portafolio equitativo (<span class='highlight'>-21%</span>) que para el benchmark (<span class='highlight'>-25%</span>).</div>", unsafe_allow_html=True)
-    
-    st.markdown("<div class='subtitle'>Conclusión</div>", unsafe_allow_html=True)
-    st.markdown("<div class='paragraph'>En términos generales, el benchmark (S&P 500) ofreció mayores retornos y una mejor relación riesgo-retorno. Aunque el portafolio equitativo presentó menor volatilidad y riesgos extremos más controlados, su bajo rendimiento lo hace menos atractivo para inversionistas enfocados en maximizar el crecimiento del capital.</div>", unsafe_allow_html=True)
-
-    
 
 with tab7:
-    st.markdown("""
-        <style>
-            .title {
-                font-size: 24px;
-                font-weight: bold;
-                color: #4CAF50;
-                text-align: center;
-                margin-bottom: 20px;
-            }
-            .subtitle {
-                font-size: 18px;
-                font-weight: bold;
-                color: #333;
-                margin-top: 15px;
-            }
-            .paragraph {
-                font-size: 16px;
-                color: #555;
-                text-align: justify;
-                line-height: 1.6;
-                margin-bottom: 15px;
-            }
-            .highlight {
-                font-size: 16px;
-                color: #FF5722;
-                font-weight: bold;
-            }
-            ul {
-                color: #555;
-                font-size: 16px;
-                line-height: 1.6;
-                margin-left: 20px;
-            }
-            li {
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
+    st.title('Cálculo de Riesgo con el Modelo de Black-Litterman')
+    # Datos de ejempl
+    returns = pd.DataFrame({
+    'Asset1': np.random.normal(0.01, 0.02, 100),
+    'Asset2': np.random.normal(0.02, 0.03, 100),
+    'Asset3': np.random.normal(0.015, 0.025, 100)
+    })
 
-    # Título principal
-    st.markdown("<div class='title'>Análisis del Portafolio Seleccionado</div>", unsafe_allow_html=True)
-    
-    # Introducción
-    st.markdown("<div class='paragraph'>Para este proyecto, elegimos el siguiente portafolio: <span class='highlight'>IEI, EMB, SPY, IEMG, GLD</span>. Con base en el modelo de Black-Litterman, podemos decir lo siguiente:</div>", unsafe_allow_html=True)
-    
-    # IEI
-    st.markdown("<div class='subtitle'>IEI</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <ul>
-        <li>Tiene un rendimiento anual esperado de <span class='highlight'>0.74%</span> y un VaR de <span class='highlight'>-0.48%</span>, lo que nos dice que es un activo estable para nuestro portafolio.</li>
-        <li>El Drawdown es algo bajo (<span class='highlight'>-152.75%</span>), lo que indica que, en caso de ir bajando, tardará en repuntar.</li>
-        <li>Por último, al ser un activo de renta fija desarrollada, asegura que la acción no perderá su valor por completo, brindando seguridad en la inversión.</li>
-    </ul>
-    """, unsafe_allow_html=True)
-    
-    # EMB
-    st.markdown("<div class='subtitle'>EMB</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <ul>
-        <li>Tiene un rendimiento anual esperado de <span class='highlight'>8.42%</span> y un VaR de <span class='highlight'>-0.85%</span>.</li>
-        <li>Sin embargo, al ser un ETF de renta fija emergente, tiende a ser más volátil dependiendo de la situación de los países involucrados (México, Brasil, etc.).</li>
-        <li>Este ETF puede ofrecer un buen rendimiento con poco riesgo de pérdida, aunque puede estancarse debido a las condiciones económicas de los países emergentes.</li>
-    </ul>
-    """, unsafe_allow_html=True)
-    
-    # SPY
-    st.markdown("<div class='subtitle'>SPY</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <ul>
-        <li>Con un rendimiento anual de <span class='highlight'>41.64%</span> y un VaR de <span class='highlight'>-1.35%</span>, este ETF se ve atractivo para diversificar hacia la renta variable desarrollada.</li>
-        <li>Al ser una réplica de nuestro benchmark, ayuda a mantenernos cerca de esta meta. Sin embargo, como renta variable, no se puede garantizar un rendimiento constante.</li>
-        <li>Su último Drawdown fue bajo (<span class='highlight'>-0.71%</span>), mostrando que se recupera rápidamente y las pérdidas no suelen ser significativas.</li>
-    </ul>
-    """, unsafe_allow_html=True)
-    
-    # IEMG
-    st.markdown("<div class='subtitle'>IEMG</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <ul>
-        <li>Con un rendimiento anual de <span class='highlight'>11.49%</span> y un VaR de <span class='highlight'>-1.44%</span>, este ETF de renta fija emergente permite diversificación.</li>
-        <li>Enfocado en empresas de mediana y alta capitalización, sugiere menor riesgo de pérdidas completas, ya que estas empresas suelen mantenerse estables en países emergentes.</li>
-        <li>Su Drawdown de <span class='highlight'>-88.89%</span> indica que, aunque las pérdidas no son muy altas, tarda en recuperarse.</li>
-    </ul>
-    """, unsafe_allow_html=True)
-    
-    # GLD
-    st.markdown("<div class='subtitle'>GLD</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <ul>
-        <li>Con un rendimiento anual de <span class='highlight'>33.10%</span>, este ETF es un activo de resguardo que ofrece liquidez segura en el portafolio.</li>
-        <li>Su VaR de <span class='highlight'>-1.24%</span> indica que las pérdidas suelen ser limitadas.</li>
-        <li>Su Drawdown bajo (<span class='highlight'>-9.37%</span>) lo hace atractivo, mostrando que recupera rápidamente sus pérdidas. Es ideal para equilibrar las rentas variables del portafolio.</li>
-    </ul>
-    """, unsafe_allow_html=True)
-    
-    returns = cumulative_returns
-    col1 = st.columns(1)
-    st.subheader("Rendimientos optimizados")
-    st.dataframe(rendimientos_ventanas.style.format("{:.2%}"))
     P = np.array([[1, -1, 0], [0, 1, -1]])
     Q = np.array([0.01, 0.02])
     omega = np.diag([0.0001, 0.0001])
     
     riesgo = calcular_riesgo_black_litterman(returns, P, Q, omega)
+    st.write(f'El riesgo calculado es: {riesgo}') 
