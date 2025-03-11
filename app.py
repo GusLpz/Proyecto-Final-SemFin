@@ -214,8 +214,8 @@ def calcular_maximo_sharpe(returns, risk_free_rate=0.02):
 
 # ETFs permitidos y datos
 etfs_permitidos = []
-start_date = datetime.today().date()
-end_date = start_date - timedelta(days=365)
+start_date = "2010-01-01"
+end_date = "2023-12-31"
 simbolos_input = st.sidebar.text_input(
     "🧩 Ingrese el Ticker del activo(TSLA, SPY, GOOG, ACWI, ETC):", 
     ",".join(etfs_permitidos)
